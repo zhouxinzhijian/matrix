@@ -241,10 +241,10 @@ signing {
 publishing.repositories {
     maven {
         url "${getReleaseRepositoryUrl()}"
-        credentials {
-            username "${getRepositoryUsername()}"
-            password "${getRepositoryPassword()}"
-        }
+//        credentials {
+//            username "${getRepositoryUsername()}"
+//            password "${getRepositoryPassword()}"
+//        }
     }
 }
 

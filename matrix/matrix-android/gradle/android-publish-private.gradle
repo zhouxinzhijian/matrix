@@ -161,10 +161,10 @@ android.libraryVariants.all { variant ->
 publishing.repositories {
     maven {
         url "${isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()}"
-        credentials {
-            username "${getRepositoryUsername()}"
-            password "${getRepositoryPassword()}"
-        }
+//        credentials {
+//            username "${getRepositoryUsername()}"
+//            password "${getRepositoryPassword()}"
+//        }
     }
 }
 

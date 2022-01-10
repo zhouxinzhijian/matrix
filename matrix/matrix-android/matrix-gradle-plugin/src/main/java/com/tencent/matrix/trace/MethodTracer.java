@@ -372,6 +372,10 @@ public class MethodTracer {
                 if (checkNeedTraceWindowFocusChangeMethod(traceMethod)) {
                     traceWindowFocusChangeMethod(mv, className);
                 }
+
+                // 插入代码
+                mv.visitLdcInsn(traceMethod.id + "-" + traceMethod.getSimpleMethodName());
+                mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_TAG_CLASS, "i", "(Ljava/lang/String;)V", false);
             }
         }
 
@@ -400,6 +404,9 @@ public class MethodTracer {
                 traceMethodCount.incrementAndGet();
                 mv.visitLdcInsn(traceMethod.id);
                 mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_CLASS, "o", "(I)V", false);
+
+                // 插入代码
+                mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_TAG_CLASS, "o", "()V", false);
             }
         }
 

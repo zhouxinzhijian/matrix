@@ -53,6 +53,11 @@ public class TraceMethod {
         }
     }
 
+    public String getSimpleMethodName(){
+        String simpleClassName = this.className.substring(this.className.lastIndexOf(".") + 1);
+        return simpleClassName + "." + this.methodName;
+    }
+
     /**
      * proguard -> original
      *

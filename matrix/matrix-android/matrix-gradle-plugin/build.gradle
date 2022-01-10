@@ -26,6 +26,7 @@ sourceSets {
 version rootProject.ext.VERSION_NAME
 group rootProject.ext.GROUP
 
+logger.error("[bruce] rootProject.ext.PUBLISH_CHANNEL = ${rootProject.ext.PUBLISH_CHANNEL}")
 if("External" == rootProject.ext.PUBLISH_CHANNEL) {
     apply from: rootProject.file('gradle/java-publish.gradle')
 }

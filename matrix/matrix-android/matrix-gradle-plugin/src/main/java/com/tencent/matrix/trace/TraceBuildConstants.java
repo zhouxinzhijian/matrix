@@ -22,6 +22,7 @@ package com.tencent.matrix.trace;
 public class TraceBuildConstants {
 
     public final static String MATRIX_TRACE_CLASS = "com/tencent/matrix/trace/core/AppMethodBeat";
+    public final static String MATRIX_TRACE_TAG_CLASS = "com/tencent/matrix/trace/core/TraceTag";
     public final static String MATRIX_TRACE_ON_WINDOW_FOCUS_METHOD = "onWindowFocusChanged";
     public final static String MATRIX_TRACE_ATTACH_BASE_CONTEXT = "attachBaseContext";
     public final static String MATRIX_TRACE_ATTACH_BASE_CONTEXT_ARGS = "(Landroid/content/Context;)V";

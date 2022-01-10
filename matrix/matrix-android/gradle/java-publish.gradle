@@ -108,13 +108,16 @@ if (project.hasProperty("signing.keyId")) {
 /**
  * Setup custom maven repo
  */
+
+logger.error("[bruce] version = $version \tisReleaseBuild() = ${isReleaseBuild()} \turl = ${isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()}")
 publishing.repositories {
     maven {
         url "${isReleaseBuild() ? getReleaseRepositoryUrl() : getSnapshotRepositoryUrl()}"
-        credentials {
-            username "${getRepositoryUsername()}"
-            password "${getRepositoryPassword()}"
-        }
+        //TODO:没有远程仓库，暂不设置用户名密码
+//        credentials {
+//            username "${getRepositoryUsername()}"
+//            password "${getRepositoryPassword()}"
+//        }
     }
 }
 
@@ -129,6 +132,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 task buildAndPublishToLocalMaven(type: Copy, dependsOn: ['build', 'publishToMavenLocal']) {
     group = 'publishing'
 
+    logger.error("[bruce] from = ${configurations.archives.allArtifacts.files} \tinto = ${rootProject.buildDir}/outputs/artifacts/")
     // save artifacts files to artifacts folder
     from configurations.archives.allArtifacts.files
     into "${rootProject.buildDir}/outputs/artifacts/"
@@ -137,6 +141,7 @@ task buildAndPublishToLocalMaven(type: Copy, dependsOn: ['build', 'publishToMave
     }
 
     doLast {
+        logger.error("[bruce] published to maven local: ${project.group}:${project.name}:${project.version}")
         println "* published to maven local: ${project.group}:${project.name}:${project.version}"
     }
 }
