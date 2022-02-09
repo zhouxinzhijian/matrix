@@ -19,6 +19,7 @@ package sample.tencent.matrix;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 
 import com.tencent.matrix.Matrix;
 import com.tencent.matrix.batterycanary.BatteryMonitorPlugin;
@@ -30,11 +31,13 @@ import com.tencent.matrix.trace.TracePlugin;
 import com.tencent.matrix.trace.config.TraceConfig;
 import com.tencent.matrix.trace.tracer.SignalAnrTracer;
 import com.tencent.matrix.util.MatrixLog;
+import com.tencent.matrix.util.ReflectUtils;
 import com.tencent.sqlitelint.SQLiteLint;
 import com.tencent.sqlitelint.SQLiteLintPlugin;
 import com.tencent.sqlitelint.config.SQLiteLintConfig;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 import sample.tencent.matrix.battery.BatteryCanaryInitHelper;
 import sample.tencent.matrix.config.DynamicConfigImplDemo;
@@ -90,6 +93,16 @@ public class MatrixApplication extends Application {
 
         // Trace Plugin need call start() at the beginning.
         tracePlugin.start();
+        //打开 looper trace
+        try {
+            Looper mainLooper = Looper.getMainLooper();
+            Method setTraceTag = ReflectUtils.reflectMethod(mainLooper, "setTraceTag", long.class);
+            setTraceTag.invoke(mainLooper, 1L << 12);
+            MatrixLog.e(TAG, "setTraceTag success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MatrixLog.e(TAG, "setTraceTag fail");
+        }
 
         MatrixLog.i(TAG, "Matrix configurations done.");
 
