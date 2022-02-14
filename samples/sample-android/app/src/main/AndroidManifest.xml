@@ -36,6 +36,7 @@
         <activity android:name=".trace.TestTraceMainActivity" />
         <activity android:name=".trace.TestTraceFragmentActivity" />
         <activity android:name=".trace.TestEnterActivity" />
+        <activity android:name=".trace.TestInflateAndTraversalActivity" />
         <activity android:name=".trace.TestFpsActivity" />
         <activity android:name=".sqlitelint.TestSQLiteLintActivity" />
         <activity android:name=".battery.TestBatteryActivity" />

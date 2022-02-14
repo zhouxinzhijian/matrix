@@ -67,6 +67,34 @@ public class TestTraceMainActivity extends Activity implements IAppForeground {
         }
 
         AppActiveMatrixDelegate.INSTANCE.addListener(this);
+
+        View inflateBtn = findViewById(R.id.test_inflate_and_travel);
+        inflateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestTraceMainActivity.this, TestInflateAndTraversalActivity.class);
+                startActivity(intent);
+            }
+        });
+        inflateBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(TestTraceMainActivity.this, TestInflateAndTraversalActivity.class);
+                intent.putExtra("test_flatted", true);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        findViewById(R.id.test_inflate_and_travel_less).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TestTraceMainActivity.this, TestInflateAndTraversalActivity.class);
+                intent.putExtra("test_flatted", true);
+                intent.putExtra("test_flatted_less", true);
+                startActivity(intent);
+            }
+        });
     }
 
 

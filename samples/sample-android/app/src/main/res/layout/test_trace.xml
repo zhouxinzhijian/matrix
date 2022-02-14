@@ -7,6 +7,24 @@
     tools:ignore="HardcodedText">
 
     <Button
+        android:id="@+id/test_inflate_and_travel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minWidth="200dp"
+        android:text="inflate and traversal cost time test"
+        style="@style/EntryButton" />
+
+    <Button
+        android:id="@+id/test_inflate_and_travel_less"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minWidth="200dp"
+        android:text="inflate and traversal less cost time test"
+        style="@style/EntryButton" />
+
+    <Button
         android:id="@+id/test_fps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
