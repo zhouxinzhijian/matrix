@@ -26,6 +26,7 @@ import com.tencent.matrix.trace.retrace.MappingCollector;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -353,6 +354,9 @@ public class MethodTracer {
         private final boolean isNeedTrace;
         private final boolean isActivityOrSubClass;
 
+        private final Label startLabel = new Label();
+        private final Label endLabel = new Label();
+
         protected TraceMethodAdapter(int api, MethodVisitor mv, int access, String name, String desc, String className,
                                      boolean hasWindowFocusMethod, boolean isActivityOrSubClass, boolean isNeedTrace) {
             super(api, mv, access, name, desc);
@@ -370,6 +374,9 @@ public class MethodTracer {
         protected void onMethodEnter() {
             TraceMethod traceMethod = collectedMethodMap.get(methodName);
             if (traceMethod != null) {
+                // 插入 try 代码块
+                mark(startLabel);
+
                 traceMethodCount.incrementAndGet();
                 mv.visitLdcInsn(traceMethod.id);
                 mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_CLASS, "i", "(I)V", false);
@@ -413,6 +420,25 @@ public class MethodTracer {
                 mv.visitLdcInsn(traceMethod.id);
                 mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_CLASS, "o", "(I)V", false);
             }
+        }
+
+        @Override
+        public void visitMaxs(int maxStack, int maxLocals) {
+            TraceMethod traceMethod = collectedMethodMap.get(methodName);
+            if (traceMethod != null) {
+                mark(endLabel);
+                catchException(startLabel, endLabel, null);
+
+                // 插入代码
+                mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_TAG_CLASS, "o", "()V", false);
+
+                traceMethodCount.incrementAndGet();
+                mv.visitLdcInsn(traceMethod.id);
+                mv.visitMethodInsn(INVOKESTATIC, TraceBuildConstants.MATRIX_TRACE_CLASS, "o", "(I)V", false);
+
+                throwException();
+            }
+            super.visitMaxs(maxStack, maxLocals);
         }
 
         private boolean checkNeedTraceWindowFocusChangeMethod(TraceMethod traceMethod) {

@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -51,6 +53,15 @@ import sample.tencent.matrix.traffic.TestTrafficActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Matrix.sample.MainActivity";
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     protected void onResume() {
@@ -58,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
         IssuesMap.clear();
 
         MatrixLog.d(TAG, "has visible window %s", OverlayWindowLifecycleOwner.INSTANCE.hasVisibleWindow());
+
+        if(name != null){
+            return;
+        }
+
+        //验证 Did not finish 问题
+        try {
+            testThrowException();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -72,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }, 3000);
+    }
+
+    private void testThrowException(){
+        sleep1();
+        Log.i("bruce", "name.equals(haha) = " + name.equals("haha"));
+        sleep2();
+    }
+
+    private void sleep1(){
+        SystemClock.sleep(200);
+    }
+    private void sleep2(){
+        SystemClock.sleep(200);
     }
 
     @Override

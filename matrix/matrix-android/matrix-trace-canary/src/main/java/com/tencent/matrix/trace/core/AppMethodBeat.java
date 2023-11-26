@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.os.Trace;
 
 import com.tencent.matrix.lifecycle.owners.ProcessUILifecycleOwner;
 import com.tencent.matrix.trace.constants.Constants;
@@ -78,10 +77,6 @@ public class AppMethodBeat implements BeatLifecycle {
         @Override
         public void dispatchStart() {
             super.dispatchStart();
-
-            Trace.endSection(); //防止 Systrace Did Not Finish 问题（可能由于代码异常结束导致 beginSection 和 endSection 没有成对出现）
-            Trace.endSection();
-
             AppMethodBeat.dispatchBegin();
         }
 
